@@ -1,0 +1,11 @@
+# AWSプロバイダー設定、S3などのリソース
+provider "aws" {
+  region     = "us-west-2"
+  access_key = var.aws_access_key
+  secret_key = var.aws_secret_key
+}
+
+resource "aws_s3_bucket" "example" {
+  bucket = "example-bucket"
+  acl    = "private"
+}

@@ -1,0 +1,43 @@
+# GitHub Actionsの設定ファイルです。ワークフローはmain.ymlというファイルで定義される。
+# GitHub Actionsがトリガーされる際の処理内容が記述されています。
+
+name: Deploy to AWS and Snowflake
+
+on:
+  push:
+    branches:
+      - main  # 'main'ブランチへのプッシュでトリガー
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Ubuntuの環境で実行
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: '1.4.5'
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: 'us-west-2'
+
+      - name: Configure Snowflake credentials
+        run: echo "export SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT }}" >> $GITHUB_ENV
+        run: echo "export SNOWFLAKE_USER=${{ secrets.SNOWFLAKE_USER }}" >> $GITHUB_ENV
+        run: echo "export SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD }}" >> $GITHUB_ENV
+
+      - name: Initialize Terraform
+        run: terraform init
+
+      - name: Apply Terraform configuration
+        run: terraform apply -auto-approve
+
+      - name: Terraform output
+        run: terraform output
