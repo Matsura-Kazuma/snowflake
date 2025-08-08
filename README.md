@@ -15,6 +15,7 @@ Terraformを使い、実際にIaCを構築できるかをテストするのが�
 
 ## Files
 
+
 - `terraform/aws.tf`: AWS resources
 - `terraform/snowflake.tf`: Snowflake resources
 - `.github/workflows/main.yml`: GitHub Actions pipeline
