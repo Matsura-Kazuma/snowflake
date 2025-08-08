@@ -29,9 +29,10 @@ jobs:
           aws_region: 'us-west-2'
 
       - name: Configure Snowflake credentials
-        run: echo "export SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT }}" >> $GITHUB_ENV
-        run: echo "export SNOWFLAKE_USER=${{ secrets.SNOWFLAKE_USER }}" >> $GITHUB_ENV
-        run: echo "export SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD }}" >> $GITHUB_ENV
+        run: |
+          echo "export SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT }}" >> $GITHUB_ENV
+          echo "export SNOWFLAKE_USER=${{ secrets.SNOWFLAKE_USER }}" >> $GITHUB_ENV
+          echo "export SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD }}" >> $GITHUB_ENV
 
       - name: Initialize Terraform
         run: terraform init
